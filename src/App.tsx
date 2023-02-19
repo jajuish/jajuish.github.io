@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Pager from "react-bootstrap/Pagination";
 import PageItem from 'react-bootstrap/PageItem'
 
-import { Scroller } from './components';
 import { Home, About, WorkEx } from './pages';
 
 import "./App.scss"
@@ -24,7 +23,7 @@ function App() {
           key={i}
           onClick={() => handlePageChange(i)}
         >
-          {i+1}
+          {i + 1}
         </PageItem>,
       );
     }
@@ -32,24 +31,25 @@ function App() {
     return [...pageNumbers];
   };
 
-  const handleBeforePageChange = (number: any) => {
-    console.log(number);
-  };
-
   const pagesNumbers = getPagesNumbers();
+
+  const handleClickScroll = () => {
+    const element = document.getElementById('section-1');
+    if (element) {
+      // 👇 Will scroll smoothly to the top of the next section
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <div className="App">
-      <Scroller
-        pageOnChange={handlePageChange}
-        onBeforePageScroll={handleBeforePageChange}
-        customPageNumber={currentPage}
-      >
-        <Home />
-        <About />
-        <WorkEx />
-      </Scroller>
+      <Home id="section-1" />
+      <About />
+      <WorkEx />
       <Pager className="pagination-additional-class" size="lg">
         {pagesNumbers}
+        <button className="btn-scroll" onClick={handleClickScroll}>
+          Scroll Down
+        </button>
       </Pager>
     </div>
   );

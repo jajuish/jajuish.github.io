@@ -1,8 +1,11 @@
 import "./styles.scss";
 
-export default function Home() {
+interface IHome {
+	id: string;
+}
+export default function Home({ id }: IHome) {
 	return (
-		<div className="page-container">
+		<div className="page-container" id={id}>
 			Hi 1
 		</div>
 	);
