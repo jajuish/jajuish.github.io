@@ -1,10 +1,17 @@
 import React from 'react';
-import { Card } from './components';
+
+import { Scroller } from './components';
+import { Home, About, WorkEx } from './pages';
 
 function App() {
   return (
     <div className="App">
-      <Card />
+      <Scroller>
+
+        <Home />
+        <About />
+        <WorkEx />
+      </Scroller>
     </div>
   );
 }
