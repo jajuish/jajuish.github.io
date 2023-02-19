@@ -33,8 +33,6 @@ let isTransitionAfterComponentsToRenderChanged = false;
 export const Scroller = ({
   animationTimer,
   animationTimerBuffer,
-  blockScrollDown,
-  blockScrollUp,
   children,
   containerHeight,
   containerWidth,
@@ -161,7 +159,7 @@ export const Scroller = ({
   }, [children, componentsToRenderLength]);
 
   const scrollWindowDown = useCallback(() => {
-    if (!isScrolling && !blockScrollDown) {
+    if (!isScrolling) {
       if (!isNil(containersRef.current[componentIndex + 1])) {
         disableScroll();
         isScrolling = true;
@@ -182,7 +180,6 @@ export const Scroller = ({
   }, [
     animationTimer,
     animationTimerBuffer,
-    blockScrollDown,
     componentIndex,
     disableScroll,
     enableDocumentScroll,
@@ -191,7 +188,7 @@ export const Scroller = ({
   ]);
 
   const scrollWindowUp = useCallback(() => {
-    if (!isScrolling && !blockScrollUp) {
+    if (!isScrolling) {
       if (!isNil(containersRef.current[componentIndex - 1])) {
         disableScroll();
         isScrolling = true;
@@ -212,7 +209,6 @@ export const Scroller = ({
   }, [
     animationTimer,
     animationTimerBuffer,
-    blockScrollUp,
     componentIndex,
     disableScroll,
     enableDocumentScroll,
@@ -385,8 +381,6 @@ export const Scroller = ({
 Scroller.propTypes = {
   animationTimer: PropTypes.number,
   animationTimerBuffer: PropTypes.number,
-  blockScrollDown: PropTypes.bool,
-  blockScrollUp: PropTypes.bool,
   children: PropTypes.any,
   containerHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   containerWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -404,6 +398,4 @@ Scroller.defaultProps = {
   transitionTimingFunction: DEFAULT_ANIMATION,
   containerHeight: DEFAULT_CONTAINER_HEIGHT,
   containerWidth: DEFAULT_CONTAINER_WIDTH,
-  blockScrollUp: false,
-  blockScrollDown: false,
 };
