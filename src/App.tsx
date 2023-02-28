@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AppShelf } from './components';
-import { Home, About, WorkEx } from './pages';
+import { Home, About, WorkEx, Projects, Volunteering, Hobbies, Links } from './pages';
 import "./App.scss"
 
 function App() {
@@ -11,6 +11,10 @@ function App() {
         <Home />
         <About />
         <WorkEx />
+        <Projects />
+        <Volunteering />
+        <Hobbies />
+        <Links />
       </AppShelf>
     </div>
   );

@@ -1,5 +1,9 @@
+import "./styles.scss";
+
 export default function Links() {
 	return (
-		null
+		<div className="page-container">
+			Hi 1
+		</div>
 	);
 }
