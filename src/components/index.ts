@@ -1,9 +1,9 @@
 import AppShelf from "./AppShelf";
 import Card from "./Card";
-import Navbar from "./Navbar";
+import Scroller from "./Scroller";
 
 export {
 	AppShelf,
 	Card,
-	Navbar,
+	Scroller,
 };

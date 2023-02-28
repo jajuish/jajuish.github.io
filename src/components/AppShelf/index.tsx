@@ -1,31 +1,12 @@
 import React, { useCallback } from 'react';
-import Pager from "react-bootstrap/Pagination";
-import PageItem from 'react-bootstrap/PageItem'
+
+import Scroller from "../Scroller";
 
 interface IAppShelf {
   children: JSX.Element[];
 }
 export default function AppShelf({ children }: IAppShelf) {
-  const getPagesNumbers = () => {
-    const pageNumbers = [];
-
-    for (let i = 0; i < children.length; i++) {
-      pageNumbers.push(
-        <PageItem
-          key={i}
-          onClick={() => handleClickScroll(i)}
-        >
-          {i + 1}
-        </PageItem>,
-      );
-    }
-
-    return [...pageNumbers];
-  };
-
-  const pagesNumbers = getPagesNumbers();
-
-  const handleClickScroll = (number: any) => {
+  const handleClickScroll = (number: number) => {
     const element = document.getElementById(`section-${number}`);
     if (element) {
       // 👇 Will scroll smoothly to the top of the next section
@@ -57,9 +38,10 @@ export default function AppShelf({ children }: IAppShelf) {
 
   return (
     <div>
-      <Pager className="pagination-additional-class" size="lg">
-        {pagesNumbers}
-      </Pager>
+      <Scroller
+        length={children.length}
+        handleClickScroll={handleClickScroll}
+      />
       {renderChildren()}
     </div>
   )
