@@ -1,5 +1,4 @@
-import Pager from "react-bootstrap/Pagination";
-import PageItem from 'react-bootstrap/PageItem'
+import "./styles.scss";
 
 interface IScroller {
 	length: number;
@@ -11,20 +10,21 @@ export default function Scroller({ length, handleClickScroll }: IScroller) {
 
 		for (let i = 0; i < length; i++) {
 			pageNumbers.push(
-				<PageItem
+				<div
 					key={i}
 					onClick={() => handleClickScroll(i)}
+					className="page-item"
 				>
 					{i + 1}
-				</PageItem>,
+				</div>,
 			);
 		}
 
 		return [...pageNumbers];
 	};
 	return (
-		<Pager className="pagination-additional-class" size="lg">
+		<div className="pagination">
 			{getPagesNumbers()}
-		</Pager>
+		</div>
 	)
 }

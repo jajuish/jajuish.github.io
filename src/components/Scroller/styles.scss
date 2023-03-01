@@ -1,0 +1,15 @@
+.pagination {
+	margin: 0;
+	position: fixed;
+	top: 20px;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.page-item {
+	cursor: pointer;
+}
+.page-item:not(:last-of-type) {
+	margin-right: 50px;
+}

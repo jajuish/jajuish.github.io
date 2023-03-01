@@ -1,12 +1,1 @@
-.pagination-additional-class {
-	margin: 0;
-	position: fixed;
-	top: 20px;
-	display: flex;
-	justify-content: center;
-	width: 100%;
-}
 
-.pagination-additional-class > li:not(:last-of-type) > a, .pagination-additional-class > li:not(:last-of-type) > span {
-	margin-right: 50px;
-}
