@@ -25,7 +25,7 @@ export default function AppShelf({ children }: IAppShelf) {
           <div
             id={`section-${i}`}
             style={{
-              transition: `transform ${1000}ms ${"ease-in-out"}`,
+              transition: `transform ${1000}ms ${"ease-in-out"}`, // TODO: proper ease in out transition while scrolling
               outline: "none",
             }}
           >
