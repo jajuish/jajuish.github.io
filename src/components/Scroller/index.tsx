@@ -1,39 +1,43 @@
 import "./styles.scss";
 import { Circle } from "../../assets";
-import { paginationCircleSize } from "../../utils/constants";
 
 interface IScroller {
-	length: number;
+	children: JSX.Element | JSX.Element[];
 	handleClickScroll: (i: number) => void;
 	selectedItem: number;
 }
-export default function Scroller({ length, handleClickScroll, selectedItem }: IScroller) {
+export default function Scroller({ children, handleClickScroll, selectedItem }: IScroller) {
 	const getPagesNumbers = () => {
 		const pageNumbers = [];
 
-		for (let i = 0; i < length; i++) {
-			pageNumbers.push(
-				<div
-					key={i}
-					onClick={() => handleClickScroll(i)}
-					className="page-item"
-				>
-					{/* {i + 1} */}
-					<Circle
-						// size={paginationCircleSize.medium}
-						fill={i === selectedItem}
-						// colour="white"
-						// className="pagination-circle"
-					/>
-				</div>,
-			);
+		if (Array.isArray(children)) {
+			for (let i = 0; i < children.length; i++) {
+				pageNumbers.push(
+					<div
+						key={i}
+						onClick={() => handleClickScroll(i)}
+						className="navigation-button"
+					>
+						{/* {i + 1} */}
+						<Circle
+							// size={paginationCircleSize.medium}
+							fill={i === selectedItem}
+							// colour="white"
+							// className="pagination-circle"
+						/>
+					</div>,
+				);
+			}
 		}
 
 		return [...pageNumbers];
 	};
 	return (
-		<div className="pagination">
-			{getPagesNumbers()}
-		</div>
+		<>
+			<div className="pagination">
+				{getPagesNumbers()}
+			</div>
+			{children}
+		</>
 	)
 }

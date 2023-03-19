@@ -1,5 +1,5 @@
 import React from 'react';
-import { paginationCircleSize } from '../utils/constants';
+// import { paginationCircleSize } from '../utils/constants';
 
 import "./styles.scss";
 
