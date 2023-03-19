@@ -1,10 +1,13 @@
 import "./styles.scss";
+import { Circle } from "../../assets";
+import { paginationCircleSize } from "../../utils/constants";
 
 interface IScroller {
 	length: number;
 	handleClickScroll: (i: number) => void;
+	selectedItem: number;
 }
-export default function Scroller({ length, handleClickScroll }: IScroller) {
+export default function Scroller({ length, handleClickScroll, selectedItem }: IScroller) {
 	const getPagesNumbers = () => {
 		const pageNumbers = [];
 
@@ -15,7 +18,12 @@ export default function Scroller({ length, handleClickScroll }: IScroller) {
 					onClick={() => handleClickScroll(i)}
 					className="page-item"
 				>
-					{i + 1}
+					{/* {i + 1} */}
+					<Circle
+						size={paginationCircleSize.medium}
+						fill={i === selectedItem}
+						colour="black"
+					/>
 				</div>,
 			);
 		}

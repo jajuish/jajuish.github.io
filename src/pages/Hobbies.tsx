@@ -1,5 +1,7 @@
 export default function Hobbies() {
 	return (
-		null
+		<div className="page-container">
+			Hi 6
+		</div>
 	);
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Scroller from "../Scroller";
 
@@ -6,8 +6,10 @@ interface IAppShelf {
   children: JSX.Element[];
 }
 export default function AppShelf({ children }: IAppShelf) {
-  const handleClickScroll = (number: number) => {
-    const element = document.getElementById(`section-${number}`);
+  const [selectedItem, setSelectedItem] = useState<number>(0);
+  const handleClickScroll = (num: number) => {
+    const element = document.getElementById(`section-${num}`);
+    setSelectedItem(num)
     if (element) {
       // 👇 Will scroll smoothly to the top of the next section
       element.scrollIntoView({ behavior: "smooth" });
@@ -41,6 +43,7 @@ export default function AppShelf({ children }: IAppShelf) {
       <Scroller
         length={children.length}
         handleClickScroll={handleClickScroll}
+        selectedItem={selectedItem}
       />
       {renderChildren()}
     </div>
