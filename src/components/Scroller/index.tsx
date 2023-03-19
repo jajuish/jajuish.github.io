@@ -20,9 +20,10 @@ export default function Scroller({ length, handleClickScroll, selectedItem }: IS
 				>
 					{/* {i + 1} */}
 					<Circle
-						size={paginationCircleSize.medium}
+						// size={paginationCircleSize.medium}
 						fill={i === selectedItem}
-						colour="black"
+						// colour="white"
+						// className="pagination-circle"
 					/>
 				</div>,
 			);

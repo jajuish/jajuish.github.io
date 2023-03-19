@@ -1,22 +1,15 @@
 import React from 'react';
 import { paginationCircleSize } from '../utils/constants';
 
+import "./styles.scss";
+
 interface ICircle {
-	size: paginationCircleSize,
+	// size: paginationCircleSize,
 	fill: boolean;
-	colour: string;
+	// colour: string;
 }
-export default function Circle({ size = paginationCircleSize.medium, fill, colour }: ICircle) {
+export default function Circle({ fill }: ICircle) {
 	return (
-		<svg width={size} height={size}>
-			<circle
-				cx={size / 2}
-				cy={size / 2}
-				r={fill ? (size / 2) : ((size / 2) - 1)}
-				fill={fill ? colour : "none"}
-				stroke={fill ? "none" : colour}
-				strokeWidth={fill ? 0 : 2}
-			/>
-		</svg>
+		<div className={`circle ${fill ? "circle-fill" : ""}`} />
 	)
 }
