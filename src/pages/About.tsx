@@ -2,7 +2,7 @@ import "./styles.scss";
 
 export default function About() {
 	return (
-		<div className="">
+		<div className="section-container">
 			Hi 2
 		</div>
 	);

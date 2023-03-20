@@ -24,13 +24,12 @@ export default function AppShelf({ children }: IAppShelf) {
         selectedItem={selectedItem}
       >
         {children.map((child, i) =>
-          <React.Fragment key={i}>
-            <div
-              id={pageElementIdGenerator(i)}
-            >
-              {child}
-            </div>
-          </React.Fragment>
+          <div
+            id={pageElementIdGenerator(i)}
+            key={i}
+          >
+            {child}
+          </div>
         )}
       </Scroller>
     </div>

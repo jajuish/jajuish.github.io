@@ -5,11 +5,15 @@ import "./styles.scss";
 
 interface ICircle {
 	// size: paginationCircleSize,
-	fill: boolean;
-	// colour: string;
+	active: boolean;
+	colour?: string;
 }
-export default function Circle({ fill }: ICircle) {
+export default function Circle({ active, colour }: ICircle) {
 	return (
-		<div className={`circle ${fill ? "circle-fill" : ""}`} />
+		<div 
+			className={`circle
+			${active ? "circle-fill" : ""} 
+			`} 
+		/>
 	)
 }
