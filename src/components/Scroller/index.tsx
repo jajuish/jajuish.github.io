@@ -55,8 +55,10 @@ export default function Scroller({ children }: IScroller) {
 
 	const handleScroll = () => {
 		const position = window.pageYOffset;
-	const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
-		setSelectedItem((currComp.valueOf())-1)
+		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
+
+		const temp = (currComp.valueOf() - 1) === -1 ? 0 : (currComp.valueOf() - 1)
+		setSelectedItem(temp)
 	};
 
 	useLayoutEffect(() => {
