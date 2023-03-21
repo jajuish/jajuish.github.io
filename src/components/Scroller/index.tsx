@@ -72,18 +72,22 @@ export default function Scroller({ children }: IScroller) {
 		[componentPositions]
 	);
 
-	// TODO: scroll extremely quickly to each part of page
-	// TODO: implement fnality that the page nr is selected based on which component takes up screen space most
 	// TODO: slowly enter from side, animation
-	// TODO: add lines in between ?
-	// TODO: fix according to screen size
-	// TODO: in phones, hover stays there only
+	// TODO: scroll extremely quickly to each part of page
 	const handleScroll = () => {
 		const position = window.pageYOffset.valueOf() + 5;
 		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
 
 		const compIndex = (currComp.valueOf() - 1) === -1 ? 0 : (currComp.valueOf() - 1)
-		setSelectedItem(compIndex)
+
+		const topComponentScreenSpace = componentPositions[(compIndex.valueOf()) + 1] - position
+		const topComponentScreenSpacePercentage = (topComponentScreenSpace / window.outerHeight) * 100
+
+		if (topComponentScreenSpacePercentage < 55) {
+			setSelectedItem(compIndex + 1)
+		} else {
+			setSelectedItem(compIndex)
+		}
 	};
 
 	return (
@@ -92,7 +96,7 @@ export default function Scroller({ children }: IScroller) {
 				{createNavigator()}
 			</div>
 			<div
-				// ref={pageContainer}
+			// ref={pageContainer}
 			>
 				{children.map((childElement, i) =>
 					<div
