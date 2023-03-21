@@ -1,17 +1,20 @@
 .circle {
-	border-radius: 50%;
-	width: 17px;
-	height: 17px;
-	background-color: rgba($color: #ffffff, $alpha: 0.3);
-	outline: 3px solid rgba($color: #ffffff, $alpha: 0);
-	transition: outline-color 0.2s linear;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: rgba($color: #ffffff, $alpha: 0.3);
+  outline: 3px solid rgba($color: #ffffff, $alpha: 0);
+  transition: outline-color, transform 0.2s linear;
 }
 
-.circle:hover {
-	outline-color: rgba($color: #ffffff, $alpha: 1);
+@media (hover: hover) {
+  .circle:hover {
+    outline-color: rgba($color: #ffffff, $alpha: 1);
+		transform: scale(1.05);
+  }
 }
-
 
 .circle-fill {
-	outline-color: rgba($color: #ffffff, $alpha: 1);
+	transition: outline-color, transform 0.2s linear;
+  outline-color: rgba($color: #ffffff, $alpha: 1);
 }

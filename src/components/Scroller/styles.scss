@@ -1,15 +1,16 @@
 .pagination {
-	margin: 0;
+	margin: auto;
 	position: fixed;
-	top: 20px;
+	left: 20px;
 	display: flex;
 	justify-content: center;
-	width: 100%;
+	flex-direction: column;
+	height: 98vh;
 }
 
 .navigation-button {
 	cursor: pointer;
 }
 .navigation-button:not(:last-of-type) {
-	margin-right: 30px;
+	margin-bottom: 16px;
 }

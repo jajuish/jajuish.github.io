@@ -22,7 +22,7 @@ export default function Scroller({ children }: IScroller) {
 	)
 
 	useLayoutEffect(() => {
-		handleScroll()
+		handleScroll();
 		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		return () => {
@@ -42,9 +42,8 @@ export default function Scroller({ children }: IScroller) {
 				>
 					<Circle
 						// size={paginationCircleSize.medium}
+						// colour="white"
 						active={i === selectedItem}
-					// colour="white"
-					// className="pagination-circle"
 					/>
 				</div>,
 			);
@@ -58,23 +57,26 @@ export default function Scroller({ children }: IScroller) {
 
 		const element = document.getElementById(pageElementIdGenerator(num));
 		if (element) {
-			// 👇 Will scroll smoothly to the top of the next section
-			element.scrollIntoView({ behavior: "smooth" });
+			// window.removeEventListener('scroll', handleScroll);
+			element.scrollIntoView({ behavior: "smooth", block: "start" });
+			// setTimeout(() => {
+			// 	window.addEventListener('scroll', handleScroll, { passive: true })
+			// }, 1000)
 		}
 
 		// if (pageContainer.current !== null) {
 		// 	pageContainer.current.style.transform = `translate3d(0, -${componentPositions[num]}px, 0)`;
 		// }
-
 	},
 		[componentPositions]
 	);
 
-	// TODO: place on left side
 	// TODO: delay the setItem after scrolling is complete by the user
 	// TODO: implement fnality that the page nr is selected based on which component takes up screen space most
 	// TODO: slowly enter from side, animation
 	// TODO: add lines in between ?
+	// TODO: fix according to screen size
+	// TODO: in phones, hover stays there only
 	const handleScroll = () => {
 		const position = window.pageYOffset;
 		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
