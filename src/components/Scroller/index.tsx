@@ -8,29 +8,27 @@ interface IScroller {
 	children: JSX.Element[];
 }
 export default function Scroller({ children }: IScroller) {
-	const [selectedItem, setSelectedItem] = useState<number>(0);
-	const [componentPositions, setComponentPositions] = useState<number[]>([]);
+	const [selectedItem, setSelectedItem] = useState<number>(-1);
 
 	// const pageContainer = useRef<HTMLDivElement>(null);
 	const elRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-	useEffect(() => {
-		const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0)
-		setComponentPositions(componentHeights.reduce((_height, _children) => {
-			const lastElement = _height.slice(-1)[0];
-			return _height.concat([lastElement + _children]);
-		},
-			[0],
-		))
-	}, [elRefs, children]);
+	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0)
+	const componentPositions = componentHeights.reduce((_height, _children) => {
+		const lastElement = _height.slice(-1)[0];
+		return _height.concat([lastElement + _children]);
+	},
+		[0],
+	)
 
 	useLayoutEffect(() => {
-		window.addEventListener('scroll', handleScroll, { passive: false });
+		handleScroll()
+		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
-	}, []);
+	}, [componentPositions]);
 
 	const createNavigator = () => {
 		const navigationPoints = [];
@@ -45,8 +43,8 @@ export default function Scroller({ children }: IScroller) {
 					<Circle
 						// size={paginationCircleSize.medium}
 						active={i === selectedItem}
-						// colour="white"
-						// className="pagination-circle"
+					// colour="white"
+					// className="pagination-circle"
 					/>
 				</div>,
 			);
@@ -57,13 +55,13 @@ export default function Scroller({ children }: IScroller) {
 
 	const handleClick = useCallback((num: number) => {
 		setSelectedItem(num)
-		
+
 		const element = document.getElementById(pageElementIdGenerator(num));
-		if(element) {
+		if (element) {
 			// 👇 Will scroll smoothly to the top of the next section
 			element.scrollIntoView({ behavior: "smooth" });
 		}
-		
+
 		// if (pageContainer.current !== null) {
 		// 	pageContainer.current.style.transform = `translate3d(0, -${componentPositions[num]}px, 0)`;
 		// }
@@ -72,10 +70,11 @@ export default function Scroller({ children }: IScroller) {
 		[componentPositions]
 	);
 
-	// TODO: functionality goes away after reload... somethihng with the mf refs
 	// TODO: place on left side
 	// TODO: delay the setItem after scrolling is complete by the user
 	// TODO: implement fnality that the page nr is selected based on which component takes up screen space most
+	// TODO: slowly enter from side, animation
+	// TODO: add lines in between ?
 	const handleScroll = () => {
 		const position = window.pageYOffset;
 		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
