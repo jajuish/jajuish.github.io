@@ -6,13 +6,14 @@ import "./styles.scss";
 interface ICircle {
 	// size: paginationCircleSize,
 	active: boolean;
-	colour?: string;
+	darkBg: boolean;
 }
-export default function Circle({ active, colour }: ICircle) {
+export default function Circle({ active, darkBg }: ICircle) {
 	return (
 		<div 
 			className={`circle
-			${active ? "circle-fill" : ""} 
+			${darkBg ? "circle-light circle-hover-light" : "circle-dark circle-hover-dark"}
+			${active ? (darkBg ? "circle-active-light": "circle-active-dark") : ""}
 			`} 
 		/>
 	)

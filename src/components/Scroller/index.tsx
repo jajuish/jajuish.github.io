@@ -42,7 +42,7 @@ export default function Scroller({ children }: IScroller) {
 				>
 					<Circle
 						// size={paginationCircleSize.medium}
-						// colour="white"
+						darkBg={true}
 						active={i === selectedItem}
 					/>
 				</div>,
@@ -66,12 +66,13 @@ export default function Scroller({ children }: IScroller) {
 
 		// if (pageContainer.current !== null) {
 		// 	pageContainer.current.style.transform = `translate3d(0, -${componentPositions[num]}px, 0)`;
+		// 	pageContainer.current.style.transition = `0.6s ease-in-out;`
 		// }
 	},
 		[componentPositions]
 	);
 
-	// TODO: delay the setItem after scrolling is complete by the user
+	// TODO: scroll extremely quickly to each part of page
 	// TODO: implement fnality that the page nr is selected based on which component takes up screen space most
 	// TODO: slowly enter from side, animation
 	// TODO: add lines in between ?
@@ -90,14 +91,18 @@ export default function Scroller({ children }: IScroller) {
 			<div className="pagination">
 				{createNavigator()}
 			</div>
-			{children.map((childElement, i) =>
-				<div
-					ref={el => elRefs.current[i] = el}
-					key={i}
-				>
-					{childElement}
-				</div>
-			)}
+			<div
+				// ref={pageContainer}
+			>
+				{children.map((childElement, i) =>
+					<div
+						ref={el => elRefs.current[i] = el}
+						key={i}
+					>
+						{childElement}
+					</div>
+				)}
+			</div>
 		</>
 	)
 }
