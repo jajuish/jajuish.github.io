@@ -78,7 +78,7 @@ export default function Scroller({ children }: IScroller) {
 	// TODO: fix according to screen size
 	// TODO: in phones, hover stays there only
 	const handleScroll = () => {
-		const position = window.pageYOffset;
+		const position = window.pageYOffset.valueOf() + 5;
 		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
 
 		const compIndex = (currComp.valueOf() - 1) === -1 ? 0 : (currComp.valueOf() - 1)
