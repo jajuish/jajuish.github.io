@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect, useCallback } from "react";
+import { useRef, useState, useLayoutEffect, useCallback, useEffect } from "react";
 
 import { Circle } from "../../assets";
 import { pageElementIdGenerator, useDebounce } from "../../utils/helpers";
@@ -20,6 +20,15 @@ export default function Scroller({ children }: IScroller) {
 	},
 		[0]
 	);
+
+	useEffect(() => {
+		window.onload = function () {
+			const element = document.getElementById("scroller");
+			if (element) {
+				element.className += " pagination-transition"
+			}
+		}
+	}, [])
 
 	useLayoutEffect(() => {
 		handleScroll();
@@ -63,8 +72,6 @@ export default function Scroller({ children }: IScroller) {
 		[componentPositions]
 	);
 
-	// TODO: slowly enter from side, animation
-	// TODO: scroll extremely quickly to each part of page
 	const handleScroll = useDebounce(() => {
 		const position = window.pageYOffset.valueOf() + 5;
 		const currComp = componentPositions
@@ -91,7 +98,7 @@ export default function Scroller({ children }: IScroller) {
 
 	return (
 		<>
-			<div className="pagination">
+			<div className="pagination" id="scroller">
 				{createNavigator()}
 			</div>
 			<div

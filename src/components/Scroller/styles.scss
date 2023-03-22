@@ -14,3 +14,20 @@
 .navigation-button:not(:last-of-type) {
 	margin-bottom: 16px;
 }
+
+.pagination-transition {
+	opacity: 1;
+	transform: none;
+	animation-name: wipe-enter;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+}
+
+@keyframes wipe-enter {
+	0% {
+		left: -20px;
+	}
+	100% {
+		left: 20px;
+	}
+}
