@@ -1,0 +1,77 @@
+.circle {
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  transition: outline-color, transform 0.2s linear;
+}
+
+.circle-light {
+  background-color: rgba($color: #ffffff, $alpha: 0.3);
+  outline: 2px solid rgba($color: #ffffff, $alpha: 0);
+}
+
+.circle-dark {
+  background-color: rgba($color: #000000, $alpha: 0.3);
+  outline: 2px solid rgba($color: #000000, $alpha: 0);
+}
+
+@media (hover: hover) {
+  .circle-hover-light:hover {
+    outline-color: rgba($color: #ffffff, $alpha: 0.7);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px 3px #ffffff;
+    animation: shadows-light 8s infinite;
+  }
+  .circle-hover-dark:hover {
+    outline-color: rgba($color: #000000, $alpha: 0.5);
+    // transform: scale(1.05);
+    box-shadow: 0 0 25px 3px #000000;
+    animation: shadows-dark 8s infinite;
+  }
+}
+
+.circle-active-light {
+  outline-color: rgba($color: #ffffff, $alpha: 0.7);
+  // box-shadow: 0 0 6px 3px #ffffff;
+}
+
+.circle-active-dark {
+  outline-color: rgba($color: #000000, $alpha: 0.5);
+  // box-shadow: 0 0 6px 3px #000000;
+}
+
+@keyframes shadows-light {
+  0% {
+    box-shadow: 0 0 25px 3px #ebebeb;
+  }
+  25% {
+    box-shadow: 0 0 0 0 #ebebeb;
+  }
+  50% {
+    box-shadow: 0 0 25px 3px #ebebeb;
+  }
+  75% {
+    box-shadow: 0 0 0 0 #ebebeb;
+  }
+  100% {
+    box-shadow: 0 0 25px 3px #ebebeb;
+  }
+}
+
+@keyframes shadows-dark {
+  0% {
+    box-shadow: 0 0 25px 3px #3e3e3e;
+  }
+  25% {
+    box-shadow: 0 0 0 0 #3e3e3e;
+  }
+  50% {
+    box-shadow: 0 0 25px 3px #3e3e3e;
+  }
+  75% {
+    box-shadow: 0 0 0 0 #3e3e3e;
+  }
+  100% {
+    box-shadow: 0 0 25px 3px #3e3e3e;
+  }
+}

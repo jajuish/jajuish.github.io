@@ -1,5 +1,9 @@
+import "./styles.scss";
+
 export default function Projects() {
 	return (
-		null
+		<div className="page-container">
+			Hi 4
+		</div>
 	);
 }

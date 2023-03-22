@@ -1,409 +1,133 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-} from "react";
-import PropTypes from "prop-types";
+import { useRef, useState, useLayoutEffect, useCallback, useEffect } from "react";
 
-import * as Events from "./Events";
-import { isNil, isNull, isPositiveNumber } from "./utils";
-import usePrevious from "./usePrevValue";
-import { SectionContainer } from "./SectionContainer";
+import { Circle } from "../../assets";
+import { pageElementIdGenerator, useDebounce } from "../../utils/helpers";
+import "./styles.scss";
 
-const DEFAULT_ANIMATION_TIMER = 1000;
-const DEFAULT_ANIMATION = "ease-in-out";
-const DEFAULT_CONTAINER_HEIGHT = "100vh";
-const DEFAULT_CONTAINER_WIDTH = "100vw";
-const DEFAULT_COMPONENT_INDEX = 0;
-const DEFAULT_COMPONENTS_TO_RENDER_LENGTH = 0;
+interface IScroller {
+	children: JSX.Element[];
+}
+export default function Scroller({ children }: IScroller) {
+	const [selectedItem, setSelectedItem] = useState<number>(-1);
 
-const DEFAULT_ANIMATION_TIMER_BUFFER = 200;
-const KEY_UP = 38;
-const KEY_DOWN = 40;
-const MINIMAL_DELTA_Y_DIFFERENCE = 1;
-const DISABLED_CLASS_NAME = "rps-scroll--disabled";
+	// const pageContainer = useRef<HTMLDivElement>(null);
+	const elRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-let previousTouchMove: any = null;
-let isScrolling = false;
-let isBodyScrollEnabled = true;
-let isTransitionAfterComponentsToRenderChanged = false;
+	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0);
+	const componentPositions = componentHeights.reduce((_height, _children) => {
+		const lastElement = _height.slice(-1)[0];
+		return _height.concat([lastElement + _children]);
+	},
+		[0]
+	);
 
-export const Scroller = ({
-  animationTimer,
-  animationTimerBuffer,
-  blockScrollDown,
-  blockScrollUp,
-  children,
-  containerHeight,
-  containerWidth,
-  customPageNumber,
-  handleScrollUnavailable,
-  onBeforePageScroll,
-  pageOnChange,
-  renderAllPagesOnFirstRender,
-  transitionTimingFunction,
-}: any) => {
-  const [componentIndex, setComponentIndex] = useState(DEFAULT_COMPONENT_INDEX);
-  const [componentsToRenderLength, setComponentsToRenderLength] = useState(
-    DEFAULT_COMPONENTS_TO_RENDER_LENGTH,
-  );
-  const prevComponentIndex = usePrevious(componentIndex);
-  const scrollContainer = useRef(null);
-  const pageContainer = useRef(null);
-  const lastScrolledElement = useRef(null);
-  const isMountedRef = useRef(false);
-  const containersRef = useRef([]);
-  children = useMemo(() => React.Children.toArray(children), [children]);
+	useEffect(() => {
+		window.onload = function () {
+			const element = document.getElementById("scroller");
+			if (element) {
+				element.className += " pagination-transition"
+			}
+		}
+	}, [])
 
-  const positions = useMemo(
-    () =>
-      children.reduce(
-        (_positions: any, _children: any) => {
-          const lastElement = _positions.slice(-1);
-          const height = _children.props.height
-            ? parseInt(_children.props.height)
-            : 100;
-          return _positions.concat([lastElement - height]);
-        },
-        [0],
-      ),
-    [children],
-  );
+	useLayoutEffect(() => {
+		handleScroll();
+		window.addEventListener("scroll", handleScroll, { passive: true });
 
-  const scrollPage = useCallback(
-    (nextComponentIndex: any) => {
-      if (onBeforePageScroll) {
-        onBeforePageScroll(nextComponentIndex);
-      }
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, [componentPositions]);
 
-      // @ts-ignore
-      pageContainer.current.style.transform = `translate3d(0, ${positions[nextComponentIndex]}%, 0)`;
-    },
-    [onBeforePageScroll, positions],
-  );
+	const createNavigator = () => {
+		const navigationPoints = [];
 
-  const addNextComponent = useCallback(
-    (componentsToRenderOnMountLength = 0) => {
-      let tempComponentsToRenderLength = Math.max(
-        componentsToRenderOnMountLength,
-        componentsToRenderLength,
-      );
+		for (let i = 0; i < children.length; i++) {
+			navigationPoints.push(
+				<div
+					key={i}
+					onClick={() => handleClick(i)}
+					className="navigation-button"
+				>
+					<Circle
+						// size={paginationCircleSize.medium}
+						darkBg={true}
+						active={i === selectedItem}
+					/>
+				</div>
+			);
+		}
 
-      if (tempComponentsToRenderLength <= componentIndex + 1) {
-        if (!isNil(children[componentIndex + 1])) {
-          tempComponentsToRenderLength++;
-        }
-      }
+		return [...navigationPoints];
+	};
 
-      setComponentsToRenderLength(tempComponentsToRenderLength);
-    },
-    [children, componentIndex, componentsToRenderLength],
-  );
+	const handleClick = useCallback((num: number) => {
+		setSelectedItem(num);
 
-  const checkRenderOnMount = useCallback(() => {
-    if (renderAllPagesOnFirstRender) {
-      setComponentsToRenderLength(React.Children.count(children));
-    } else if (!isNil(children[DEFAULT_COMPONENT_INDEX + 1])) {
-      const componentsToRenderAdditionally = positions.filter(
-        (position: any) => Math.abs(position) < 200,
-      ).length;
+		const element = document.getElementById(pageElementIdGenerator(num));
+		if (element) {
+			element.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	},
+		[componentPositions]
+	);
 
-      addNextComponent(
-        DEFAULT_COMPONENTS_TO_RENDER_LENGTH + componentsToRenderAdditionally,
-      );
-    }
-  }, [addNextComponent, children, positions, renderAllPagesOnFirstRender]);
+	const handleScroll = useDebounce(() => {
+		const position = window.pageYOffset.valueOf() + 5;
+		const currComp = componentPositions
+			.concat(position)
+			.sort((a, b) => a - b)
+			.indexOf(position);
 
-  const disableScroll = useCallback(() => {
-    if (isBodyScrollEnabled) {
-      isBodyScrollEnabled = false;
-      window.scrollTo({
-        left: 0,
-        top: 0,
-        behavior: "smooth",
-      });
-      document.body.classList.add(DISABLED_CLASS_NAME);
-      document.documentElement.classList.add(DISABLED_CLASS_NAME);
-    }
-  }, []);
+		const compIndex =
+			currComp.valueOf() - 1 === -1 ? 0 : currComp.valueOf() - 1;
 
-  const enableDocumentScroll = useCallback(() => {
-    if (!isBodyScrollEnabled) {
-      isBodyScrollEnabled = true;
-      document.body.classList.remove(DISABLED_CLASS_NAME);
-      document.documentElement.classList.remove(DISABLED_CLASS_NAME);
-    }
-  }, []);
+		const topComponentScreenSpace = componentPositions[compIndex.valueOf() + 1] - position;
+		const topComponentScreenSpacePercentage = (topComponentScreenSpace / window.outerHeight) * 100;
 
-  const setRenderComponents = useCallback(() => {
-    const newComponentsToRender = [];
+		// console.log((position - 5), componentPositions[currComp])
+		// if (Math.abs((position - 5) - componentPositions[currComp]) < 20) {
+		// 	setSelectedItem(compIndex)
+		// } else
+		if (topComponentScreenSpacePercentage < 55) {
+			setSelectedItem(compIndex + 1);
+		} else {
+			setSelectedItem(compIndex);
+		}
+	}, 100);
 
-    let i = 0;
+	return (
+		<>
+			<div className="pagination" id="scroller">
+				{createNavigator()}
+			</div>
+			<div
+			// ref={pageContainer}
+			>
+				{children.map((childElement, i) => (
+					<div
+						ref={(el) => (elRefs.current[i] = el)}
+						key={i}
+					>
+						{childElement}
+					</div>
+				))}
+			</div>
+		</>
+	);
+}
 
-    while (i < componentsToRenderLength && !isNil(children[i])) {
-      // @ts-ignore
-      containersRef.current[i] = true;
-      if (children[i].type.name === SectionContainer.name) {
-        newComponentsToRender.push(
-          <React.Fragment key={i}>{children[i]}</React.Fragment>,
-        );
-      } else {
-        newComponentsToRender.push(
-          <SectionContainer key={i}>{children[i]}</SectionContainer>,
-        );
-      }
-      i++;
-    }
-
-    return newComponentsToRender;
-  }, [children, componentsToRenderLength]);
-
-  const scrollWindowDown = useCallback(() => {
-    if (!isScrolling && !blockScrollDown) {
-      if (!isNil(containersRef.current[componentIndex + 1])) {
-        disableScroll();
-        isScrolling = true;
-        scrollPage(componentIndex + 1);
-
-        setTimeout(() => {
-          if (isMountedRef.current) {
-            setComponentIndex(prevState => prevState + 1);
-          }
-        }, animationTimer + animationTimerBuffer);
-      } else {
-        enableDocumentScroll();
-        if (handleScrollUnavailable) {
-          handleScrollUnavailable();
-        }
-      }
-    }
-  }, [
-    animationTimer,
-    animationTimerBuffer,
-    blockScrollDown,
-    componentIndex,
-    disableScroll,
-    enableDocumentScroll,
-    handleScrollUnavailable,
-    scrollPage,
-  ]);
-
-  const scrollWindowUp = useCallback(() => {
-    if (!isScrolling && !blockScrollUp) {
-      if (!isNil(containersRef.current[componentIndex - 1])) {
-        disableScroll();
-        isScrolling = true;
-        scrollPage(componentIndex - 1);
-
-        setTimeout(() => {
-          if (isMountedRef.current) {
-            setComponentIndex(prevState => prevState - 1);
-          }
-        }, animationTimer + animationTimerBuffer);
-      } else {
-        enableDocumentScroll();
-        if (handleScrollUnavailable) {
-          handleScrollUnavailable();
-        }
-      }
-    }
-  }, [
-    animationTimer,
-    animationTimerBuffer,
-    blockScrollUp,
-    componentIndex,
-    disableScroll,
-    enableDocumentScroll,
-    handleScrollUnavailable,
-    scrollPage,
-  ]);
-
-  const touchMove = useCallback(
-    (event: any) => {
-      if (!isNull(previousTouchMove)) {
-        if (event.touches[0].clientY > previousTouchMove) {
-          scrollWindowUp();
-        } else {
-          scrollWindowDown();
-        }
-      } else {
-        previousTouchMove = event.touches[0].clientY;
-      }
-    },
-    [scrollWindowDown, scrollWindowUp],
-  );
-
-  const wheelScroll = useCallback(
-    (event: any) => {
-      if (Math.abs(event.deltaY) > MINIMAL_DELTA_Y_DIFFERENCE) {
-        if (isPositiveNumber(event.deltaY)) {
-          lastScrolledElement.current = event.target;
-          scrollWindowDown();
-        } else {
-          lastScrolledElement.current = event.target;
-          scrollWindowUp();
-        }
-      }
-    },
-    [scrollWindowDown, scrollWindowUp],
-  );
-
-  const keyPress = useCallback(
-    (event: any) => {
-      if (event.keyCode === KEY_UP) {
-        scrollWindowUp();
-      }
-      if (event.keyCode === KEY_DOWN) {
-        scrollWindowDown();
-      }
-    },
-    [scrollWindowDown, scrollWindowUp],
-  );
-
-  useEffect(() => {
-    const instance = scrollContainer.current;
-    // @ts-ignore
-    instance.addEventListener(Events.TOUCHMOVE, touchMove);
-    // @ts-ignore
-    instance.addEventListener(Events.KEYDOWN, keyPress);
-    return () => {
-      // @ts-ignore
-      instance.removeEventListener(Events.TOUCHMOVE, touchMove);
-      // @ts-ignore
-      instance.removeEventListener(Events.KEYDOWN, keyPress);
-    };
-  }, [touchMove, keyPress]);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-
-    checkRenderOnMount();
-    return () => {
-      isMountedRef.current = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    isScrolling = false;
-    previousTouchMove = null;
-    if (componentIndex > prevComponentIndex) {
-      addNextComponent();
-    }
-  }, [addNextComponent, componentIndex, prevComponentIndex]);
-
-  useEffect(() => {
-    if (pageOnChange) {
-      pageOnChange(componentIndex);
-    }
-  }, [pageOnChange, componentIndex]);
-
-  useEffect(() => {
-    if (!isNil(customPageNumber) && customPageNumber !== componentIndex) {
-      let newComponentsToRenderLength = componentsToRenderLength;
-
-      if (customPageNumber !== componentIndex) {
-        if (!isNil(containersRef.current[customPageNumber]) && !isScrolling) {
-          isScrolling = true;
-          scrollPage(customPageNumber);
-
-          if (
-            isNil(containersRef.current[customPageNumber]) &&
-            !isNil(children[customPageNumber])
-          ) {
-            newComponentsToRenderLength++;
-          }
-
-          setTimeout(() => {
-            setComponentIndex(customPageNumber);
-            setComponentsToRenderLength(newComponentsToRenderLength);
-          }, animationTimer + animationTimerBuffer);
-        } else if (!isScrolling && !isNil(children[customPageNumber])) {
-          for (let i = componentsToRenderLength; i <= customPageNumber; i++) {
-            newComponentsToRenderLength++;
-          }
-
-          if (!isNil(children[customPageNumber])) {
-            newComponentsToRenderLength++;
-          }
-
-          isScrolling = true;
-          isTransitionAfterComponentsToRenderChanged = true;
-          setComponentsToRenderLength(newComponentsToRenderLength);
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customPageNumber, scrollPage]);
-
-  useEffect(() => {
-    if (isTransitionAfterComponentsToRenderChanged) {
-      isTransitionAfterComponentsToRenderChanged = false;
-
-      scrollPage(customPageNumber);
-
-      setTimeout(() => {
-        setComponentIndex(customPageNumber);
-      }, animationTimer + animationTimerBuffer);
-    }
-  }, [
-    animationTimer,
-    animationTimerBuffer,
-    componentsToRenderLength,
-    customPageNumber,
-    scrollPage,
-  ]);
-
-  return (
-    <div
-      ref={scrollContainer}
-      style={{
-        height: containerHeight,
-        width: containerWidth,
-        overflow: "hidden",
-      }}
-    >
-      <div
-        ref={pageContainer}
-        onWheel={wheelScroll}
-        style={{
-          height: "100%",
-          width: "100%",
-          transition: `transform ${animationTimer}ms ${transitionTimingFunction}`,
-          outline: "none",
-        }}
-        tabIndex={0}
-      >
-        {setRenderComponents()}
-      </div>
-    </div>
-  );
-};
-
-Scroller.propTypes = {
-  animationTimer: PropTypes.number,
-  animationTimerBuffer: PropTypes.number,
-  blockScrollDown: PropTypes.bool,
-  blockScrollUp: PropTypes.bool,
-  children: PropTypes.any,
-  containerHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  containerWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  customPageNumber: PropTypes.number,
-  handleScrollUnavailable: PropTypes.func,
-  onBeforePageScroll: PropTypes.func,
-  pageOnChange: PropTypes.func,
-  renderAllPagesOnFirstRender: PropTypes.bool,
-  transitionTimingFunction: PropTypes.string,
-};
-
-Scroller.defaultProps = {
-  animationTimer: DEFAULT_ANIMATION_TIMER,
-  animationTimerBuffer: DEFAULT_ANIMATION_TIMER_BUFFER,
-  transitionTimingFunction: DEFAULT_ANIMATION,
-  containerHeight: DEFAULT_CONTAINER_HEIGHT,
-  containerWidth: DEFAULT_CONTAINER_WIDTH,
-  blockScrollUp: false,
-  blockScrollDown: false,
-};
+// info: overflow for more than a number of circle points is always hidden. so if it goes beyond a certain nr of components, it will not work
+interface PROPS {
+	numbers: boolean; // show either numbers or shapes
+	edges: "round" | "sharp"; //
+	size: "xs" | "s" | "m" | "l" | "xl"; // size of the elements. on mobile it is always the same size
+	position: "top" | "right" | "bottom" | "left"; // position of scroller on the page
+	slideIn: boolean; // whether to slide into the page at the beginning
+	glowOnActive: boolean;
+	glowOnHover: boolean;
+	colour: string; // bg colour of the element
+	pageHeadings: string[]; // show custom text instead of numbers or circles
+	textColour: string; // text colour inside. only applies if pageHeadings or numbers is applied
+	debounceDelay: number; // use 0 to avoid any debounce
+}

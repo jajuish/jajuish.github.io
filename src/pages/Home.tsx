@@ -1,6 +1,8 @@
 import "./styles.scss";
 
-export default function Home() {
+interface IHome {
+}
+export default function Home({ }: IHome) {
 	return (
 		<div className="page-container">
 			Hi 1
