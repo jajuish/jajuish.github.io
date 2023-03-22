@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState, useLayoutEffect, useCallback } from "react";
+import { useRef, useState, useLayoutEffect, useCallback } from "react";
 
 import { Circle } from "../../assets";
-import { pageElementIdGenerator } from '../../utils/helpers';
+import { pageElementIdGenerator, useDebounce } from "../../utils/helpers";
 import "./styles.scss";
 
 interface IScroller {
@@ -13,20 +13,20 @@ export default function Scroller({ children }: IScroller) {
 	// const pageContainer = useRef<HTMLDivElement>(null);
 	const elRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0)
+	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0);
 	const componentPositions = componentHeights.reduce((_height, _children) => {
 		const lastElement = _height.slice(-1)[0];
 		return _height.concat([lastElement + _children]);
 	},
-		[0],
-	)
+		[0]
+	);
 
 	useLayoutEffect(() => {
 		handleScroll();
-		window.addEventListener('scroll', handleScroll, { passive: true });
+		window.addEventListener("scroll", handleScroll, { passive: true });
 
 		return () => {
-			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener("scroll", handleScroll);
 		};
 	}, [componentPositions]);
 
@@ -45,7 +45,7 @@ export default function Scroller({ children }: IScroller) {
 						darkBg={true}
 						active={i === selectedItem}
 					/>
-				</div>,
+				</div>
 			);
 		}
 
@@ -53,42 +53,41 @@ export default function Scroller({ children }: IScroller) {
 	};
 
 	const handleClick = useCallback((num: number) => {
-		setSelectedItem(num)
+		setSelectedItem(num);
 
 		const element = document.getElementById(pageElementIdGenerator(num));
 		if (element) {
-			// window.removeEventListener('scroll', handleScroll);
 			element.scrollIntoView({ behavior: "smooth", block: "start" });
-			// setTimeout(() => {
-			// 	window.addEventListener('scroll', handleScroll, { passive: true })
-			// }, 1000)
 		}
-
-		// if (pageContainer.current !== null) {
-		// 	pageContainer.current.style.transform = `translate3d(0, -${componentPositions[num]}px, 0)`;
-		// 	pageContainer.current.style.transition = `0.6s ease-in-out;`
-		// }
 	},
 		[componentPositions]
 	);
 
 	// TODO: slowly enter from side, animation
 	// TODO: scroll extremely quickly to each part of page
-	const handleScroll = () => {
+	const handleScroll = useDebounce(() => {
 		const position = window.pageYOffset.valueOf() + 5;
-		const currComp = componentPositions.concat(position).sort((a, b) => a - b).indexOf(position);
+		const currComp = componentPositions
+			.concat(position)
+			.sort((a, b) => a - b)
+			.indexOf(position);
 
-		const compIndex = (currComp.valueOf() - 1) === -1 ? 0 : (currComp.valueOf() - 1)
+		const compIndex =
+			currComp.valueOf() - 1 === -1 ? 0 : currComp.valueOf() - 1;
 
-		const topComponentScreenSpace = componentPositions[(compIndex.valueOf()) + 1] - position
-		const topComponentScreenSpacePercentage = (topComponentScreenSpace / window.outerHeight) * 100
+		const topComponentScreenSpace = componentPositions[compIndex.valueOf() + 1] - position;
+		const topComponentScreenSpacePercentage = (topComponentScreenSpace / window.outerHeight) * 100;
 
+		// console.log((position - 5), componentPositions[currComp])
+		// if (Math.abs((position - 5) - componentPositions[currComp]) < 20) {
+		// 	setSelectedItem(compIndex)
+		// } else
 		if (topComponentScreenSpacePercentage < 55) {
-			setSelectedItem(compIndex + 1)
+			setSelectedItem(compIndex + 1);
 		} else {
-			setSelectedItem(compIndex)
+			setSelectedItem(compIndex);
 		}
-	};
+	}, 100);
 
 	return (
 		<>
@@ -98,15 +97,30 @@ export default function Scroller({ children }: IScroller) {
 			<div
 			// ref={pageContainer}
 			>
-				{children.map((childElement, i) =>
+				{children.map((childElement, i) => (
 					<div
-						ref={el => elRefs.current[i] = el}
+						ref={(el) => (elRefs.current[i] = el)}
 						key={i}
 					>
 						{childElement}
 					</div>
-				)}
+				))}
 			</div>
 		</>
-	)
+	);
+}
+
+// info: overflow for more than a number of circle points is always hidden. so if it goes beyond a certain nr of components, it will not work
+interface PROPS {
+	numbers: boolean; // show either numbers or shapes
+	edges: "round" | "sharp"; //
+	size: "xs" | "s" | "m" | "l" | "xl"; // size of the elements. on mobile it is always the same size
+	position: "top" | "right" | "bottom" | "left"; // position of scroller on the page
+	slideIn: boolean; // whether to slide into the page at the beginning
+	glowOnActive: boolean;
+	glowOnHover: boolean;
+	colour: string; // bg colour of the element
+	pageHeadings: string[]; // show custom text instead of numbers or circles
+	textColour: string; // text colour inside. only applies if pageHeadings or numbers is applied
+	debounceDelay: number; // use 0 to avoid any debounce
 }
