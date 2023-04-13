@@ -1,9 +1,10 @@
 import { useRef, useState, useLayoutEffect, useCallback, useEffect } from "react";
 
-import { Circle } from "../../assets";
+import Circle from "../../assets/Circle"; // TODO: fix this import
 import { pageElementIdGenerator, useDebounce } from "../../utils/helpers";
 import "./styles.scss";
 
+// TODO: hover pe title batara
 interface IScroller {
 	children: JSX.Element[];
 }
@@ -14,21 +15,22 @@ export default function Scroller({ children }: IScroller) {
 	const elRefs = useRef<Array<HTMLDivElement | null>>([]);
 
 	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0);
-	const componentPositions = componentHeights.reduce((_height, _children) => {
-		const lastElement = _height.slice(-1)[0];
-		return _height.concat([lastElement + _children]);
-	},
-		[0]
+	const componentPositions = componentHeights.reduce(
+		(_height, _children) => {
+			const lastElement = _height.slice(-1)[0];
+			return _height.concat([lastElement + _children]);
+		},
+		[0],
 	);
 
 	useEffect(() => {
 		window.onload = function () {
 			const element = document.getElementById("scroller");
 			if (element) {
-				element.className += " pagination-transition"
+				element.className += " pagination-transition";
 			}
-		}
-	}, [])
+		};
+	}, []);
 
 	useLayoutEffect(() => {
 		handleScroll();
@@ -44,32 +46,29 @@ export default function Scroller({ children }: IScroller) {
 
 		for (let i = 0; i < children.length; i++) {
 			navigationPoints.push(
-				<div
-					key={i}
-					onClick={() => handleClick(i)}
-					className="navigation-button"
-				>
+				<div key={i} onClick={() => handleClick(i)} className="navigation-button">
 					<Circle
 						// size={paginationCircleSize.medium}
 						darkBg={true}
 						active={i === selectedItem}
 					/>
-				</div>
+				</div>,
 			);
 		}
 
 		return [...navigationPoints];
 	};
 
-	const handleClick = useCallback((num: number) => {
-		setSelectedItem(num);
+	const handleClick = useCallback(
+		(num: number) => {
+			setSelectedItem(num);
 
-		const element = document.getElementById(pageElementIdGenerator(num));
-		if (element) {
-			element.scrollIntoView({ behavior: "smooth", block: "start" });
-		}
-	},
-		[componentPositions]
+			const element = document.getElementById(pageElementIdGenerator(num));
+			if (element) {
+				element.scrollIntoView({ behavior: "smooth", block: "start" });
+			}
+		},
+		[componentPositions],
 	);
 
 	const handleScroll = useDebounce(() => {
@@ -79,8 +78,7 @@ export default function Scroller({ children }: IScroller) {
 			.sort((a, b) => a - b)
 			.indexOf(position);
 
-		const compIndex =
-			currComp.valueOf() - 1 === -1 ? 0 : currComp.valueOf() - 1;
+		const compIndex = currComp.valueOf() - 1 === -1 ? 0 : currComp.valueOf() - 1;
 
 		const topComponentScreenSpace = componentPositions[compIndex.valueOf() + 1] - position;
 		const topComponentScreenSpacePercentage = (topComponentScreenSpace / window.outerHeight) * 100;
@@ -105,10 +103,7 @@ export default function Scroller({ children }: IScroller) {
 			// ref={pageContainer}
 			>
 				{children.map((childElement, i) => (
-					<div
-						ref={(el) => (elRefs.current[i] = el)}
-						key={i}
-					>
+					<div ref={(el) => (elRefs.current[i] = el)} key={i}>
 						{childElement}
 					</div>
 				))}

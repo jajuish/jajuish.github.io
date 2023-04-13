@@ -7,7 +7,6 @@ interface IAppShelf {
   children: JSX.Element[];
 }
 
-// TODO: remove the horizontal scrollbar
 export default function AppShelf({ children }: IAppShelf) {
 
   return (
