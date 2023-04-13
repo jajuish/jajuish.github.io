@@ -1,8 +1,8 @@
 .circle {
   border-radius: 50%;
-  width: 12px;
-  height: 12px;
-  transition: outline-color, transform 0.2s linear;
+  width: 14px;
+  height: 14px;
+  transition: outline-color 0.3s linear;
 }
 
 .circle-light {
@@ -18,15 +18,15 @@
 @media (hover: hover) {
   .circle-hover-light:hover {
     outline-color: rgba($color: #ffffff, $alpha: 0.7);
-    transform: scale(1.05);
-    box-shadow: 0 0 25px 3px #ffffff;
-    animation: shadows-light 8s infinite;
+    // transform: scale(1.05);
+    // box-shadow: 0 0 25px 3px #ffffff;
+    // animation: shadows-light 4s infinite;
   }
   .circle-hover-dark:hover {
     outline-color: rgba($color: #000000, $alpha: 0.5);
     // transform: scale(1.05);
-    box-shadow: 0 0 25px 3px #000000;
-    animation: shadows-dark 8s infinite;
+    // box-shadow: 0 0 25px 3px #000000;
+    // animation: shadows-dark 4s infinite;
   }
 }
 
@@ -42,36 +42,36 @@
 
 @keyframes shadows-light {
   0% {
-    box-shadow: 0 0 25px 3px #ebebeb;
+    box-shadow: 0 0 0 0 #ebebeb;
   }
   25% {
-    box-shadow: 0 0 0 0 #ebebeb;
+    box-shadow: 0 0 25px 3px #ebebeb;
   }
   50% {
-    box-shadow: 0 0 25px 3px #ebebeb;
-  }
-  75% {
     box-shadow: 0 0 0 0 #ebebeb;
   }
-  100% {
+  75% {
     box-shadow: 0 0 25px 3px #ebebeb;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #ebebeb;
   }
 }
 
 @keyframes shadows-dark {
   0% {
-    box-shadow: 0 0 25px 3px #3e3e3e;
+    box-shadow: 0 0 0 0 #3e3e3e;
   }
   25% {
-    box-shadow: 0 0 0 0 #3e3e3e;
+    box-shadow: 0 0 25px 3px #3e3e3e;
   }
   50% {
-    box-shadow: 0 0 25px 3px #3e3e3e;
-  }
-  75% {
     box-shadow: 0 0 0 0 #3e3e3e;
   }
-  100% {
+  75% {
     box-shadow: 0 0 25px 3px #3e3e3e;
+  }
+  100% {
+    box-shadow: 0 0 0 3px #3e3e3e;
   }
 }

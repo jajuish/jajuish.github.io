@@ -98,9 +98,9 @@ export default function Scroller({ children }: IScroller) {
 
 	return (
 		<>
-			<div className="pagination" id="scroller">
+			<nav className="pagination" id="scroller">
 				{createNavigator()}
-			</div>
+			</nav>
 			<div
 			// ref={pageContainer}
 			>
@@ -122,12 +122,13 @@ interface PROPS {
 	numbers: boolean; // show either numbers or shapes
 	edges: "round" | "sharp"; //
 	size: "xs" | "s" | "m" | "l" | "xl"; // size of the elements. on mobile it is always the same size
-	position: "top" | "right" | "bottom" | "left"; // position of scroller on the page
+	position: "top" | "right" | "bottom" | "left"; // position of navbar on the page
 	slideIn: boolean; // whether to slide into the page at the beginning
 	glowOnActive: boolean;
 	glowOnHover: boolean;
 	colour: string; // bg colour of the element
 	pageHeadings: string[]; // show custom text instead of numbers or circles
 	textColour: string; // text colour inside. only applies if pageHeadings or numbers is applied
-	debounceDelay: number; // use 0 to avoid any debounce
+	debounceDelay: number; // use 0 to avoid any debounce and have it be active on every scroll
+	marginBottom: number; // defaults to 16px
 }
