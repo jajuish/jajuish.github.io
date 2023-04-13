@@ -1,6 +1,6 @@
 @import "../global.scss";
 
-.home-page-container {
+.hero {
 	height: 1000px;
 	background-image: url("../../../public/assets/black-bg.jpg");
 
@@ -8,13 +8,13 @@
 	color: white;
 }
 
-.inside-flex {
+.home-container {
 	display: flex;
 	flex-direction: column;
 
 	height: 100%;
 	width: 1100px;
-	
+
 	margin: auto;
 	padding-top: 260px;
 
@@ -30,15 +30,31 @@
 	}
 }
 
+.inside-flex {
+	display: flex;
+	flex-direction: column;
+	@media (prefers-reduced-motion: no-preference) {
+		// animation: compress 1s infinite;
+	}
+}
+
 .my-name {
 	font-weight: 600;
 	font-size: 160px;
-	line-height: 110%;
 }
 
 .my-position {
 	font-weight: 400;
-	font-size: 36px;
-	line-height: 110%;
+	font-size: 30px;
 	color: #7c7c7c;
+	font-style: italic;
+}
+
+@keyframes compress {
+	0% {
+		width: 40%;
+	}
+	50% {
+		width: 100%;
+	}
 }
