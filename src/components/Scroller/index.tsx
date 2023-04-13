@@ -12,7 +12,7 @@ export default function Scroller({ children }: IScroller) {
 	const [selectedItem, setSelectedItem] = useState<number>(-1);
 
 	// const pageContainer = useRef<HTMLDivElement>(null);
-	const elRefs = useRef<Array<HTMLDivElement | null>>([]);
+	const elRefs = useRef<Array<HTMLElement | null>>([]);
 
 	const componentHeights: number[] = children.map((e, i) => elRefs.current[i]?.clientHeight || 0);
 	const componentPositions = componentHeights.reduce(
@@ -103,9 +103,9 @@ export default function Scroller({ children }: IScroller) {
 			// ref={pageContainer}
 			>
 				{children.map((childElement, i) => (
-					<div ref={(el) => (elRefs.current[i] = el)} key={i}>
+					<section ref={(el) => (elRefs.current[i] = el)} key={i}>
 						{childElement}
-					</div>
+					</section>
 				))}
 			</div>
 		</>
@@ -113,6 +113,7 @@ export default function Scroller({ children }: IScroller) {
 }
 
 // info: overflow for more than a number of circle points is always hidden. so if it goes beyond a certain nr of components, it will not work
+// info: for chrome mobile, it might scroll even though it is fixed position. for this you might need to add stuff to your meta viewport tag in html base file
 interface PROPS {
 	numbers: boolean; // show either numbers or shapes
 	edges: "round" | "sharp"; //
