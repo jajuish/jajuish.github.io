@@ -36,11 +36,34 @@
 	@media (prefers-reduced-motion: no-preference) {
 		// animation: compress 1s infinite;
 	}
+
+	&__small {
+		flex-direction: row;
+		align-items: baseline;
+	}
 }
 
 .my-name {
 	font-weight: 600;
 	font-size: 160px;
+
+	&__small {
+		font-size: 60px;
+		animation: show-shortform 1s 1;
+
+		@media (max-width: 1150px) {
+			font-size: 50px;
+		}
+		@media (max-width: 960px) {
+			font-size: 40px;
+		}
+		@media (max-width: 767px) {
+			font-size: 30px;
+		}
+		@media (max-width: 571px) {
+			font-size: 20px;
+		}
+	}
 }
 
 .my-position {
@@ -48,13 +71,80 @@
 	font-size: 30px;
 	color: #7c7c7c;
 	font-style: italic;
+
+	&__small {
+		margin-left: 5px;
+		font-size: 30px;
+		animation: show-shortform 1s 1;
+
+		@media (max-width: 1150px) {
+			font-size: 30px;
+		}
+		@media (max-width: 960px) {
+			font-size: 20px;
+		}
+		@media (max-width: 767px) {
+			font-size: 20px;
+		}
+	}
 }
 
-@keyframes compress {
-	0% {
-		width: 40%;
+@media (prefers-reduced-motion: no-preference) {
+	.ishita {
+		animation: compress-ishita 1s 1;
 	}
-	50% {
-		width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.jaju {
+		animation: compress-jaju 1s 1;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.fsd {
+		animation: compress-fsd 1s 1;
+	}
+}
+
+@keyframes compress-ishita {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-400px, 0px) scale(0.3);
+		opacity: 0;
+	}
+}
+
+@keyframes compress-jaju {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-245px, -160px) scale(0.3);
+		opacity: 0;
+	}
+}
+
+@keyframes compress-fsd {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-145px, -320px) scale(0.7);
+		opacity: 0;
+	}
+}
+
+@keyframes show-shortform {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
 	}
 }

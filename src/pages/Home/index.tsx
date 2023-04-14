@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./styles.scss";
 
 // TODO: naam pehle bada fir scroll pe chhota
@@ -9,17 +10,61 @@ import "./styles.scss";
 // TODO: in the about, do funky animations like the underline and stuff
 
 // TODO: for every link, on hover add tedha underline of different colours
+
+// TODO: load everything super smooth. and everything should wipe enter!! the navbar, my name, logo etc
+
+// TODO: add frosted glass css bg somewhere. maybe in cards background
+
+// TODO: add a loader until all assets have loaded
+
+// TODO: in phones, ishita jaju and fsd should be on separate lines
 interface IHome {}
 export default function Home({}: IHome) {
+	const [scrolled, setScrolled] = useState(false);
+
+	const onScroll = () => {
+		setTimeout(() => setScrolled(true), 900);
+
+		const first = document.getElementById("first");
+		if (first) {
+			first.className += " ishita";
+		}
+
+		const last = document.getElementById("last");
+		if (last) {
+			last.className += " jaju";
+		}
+
+		const pos = document.getElementById("pos");
+		if (pos) {
+			pos.className += " fsd";
+		}
+	};
+
+	window.addEventListener("scroll", onScroll, false);
 	return (
 		<div className="hero">
 			<div className="home-container">
-				<div className="inside-flex">
-					<div className="my-name">ISHITA</div>
-					<div className="my-name">JAJU</div>
-					<div className="my-position">full stack developer</div>
-				</div>
-				<div className="about-me">
+				{!scrolled && (
+					<div className="inside-flex">
+						<div className="my-name" id="first">
+							ISHITA
+						</div>
+						<div className="my-name" id="last">
+							JAJU
+						</div>
+						<div className="my-position" id="pos">
+							full stack developer
+						</div>
+					</div>
+				)}
+				{scrolled && (
+					<div className="inside-flex inside-flex__small">
+						<span className="my-name my-name__small">ISHITA JAJU</span>
+						<span className="my-position my-position__small">full stack developer</span>
+					</div>
+				)}
+				{/* <div className="about-me">
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi venenatis diam lobortis risus elementum
 					rhoncus. Pellentesque vitae tristique nulla. Donec vel convallis libero, auctor porttitor ante. Etiam rutrum
 					ultricies euismod. Sed dapibus vestibulum ultrices. Nunc malesuada ac elit quis euismod. Suspendisse nisl
@@ -27,7 +72,7 @@ export default function Home({}: IHome) {
 					dapibus tellus non justo porttitor, eget dignissim justo cursus. Nunc metus augue, ornare ac varius at, varius
 					eu lorem. Sed efficitur felis a tortor semper, eget posuere dolor convallis. Nam ut ipsum eu nibh tincidunt
 					malesuada in nec ante. Vivamus augue turpis, iaculis quis ipsum eu, pellentesque pretium nulla.
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
