@@ -1,0 +1,173 @@
+/* compress ishita */
+@keyframes compress-ishita-main {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-400px, -40px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-ishita-1150 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-260px, -40px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-ishita-960 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-283px, -40px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-ishita-767 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-121px, -40px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-ishita-571 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-121px, -40px) scale(0.3);
+		opacity: 0;
+	}
+}
+
+/* compress jaju */
+@keyframes compress-jaju-main {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-200px, -210px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-jaju-1150 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-132px, -197px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-jaju-960 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-97px, -190px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-jaju-767 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-11px, -190px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-jaju-571 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-11px, -149px) scale(0.3);
+		opacity: 0;
+	}
+}
+
+/* compress fsd */
+@keyframes compress-fsd-main {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-145px, -320px) scale(0.7);
+		opacity: 0;
+	}
+}
+@keyframes compress-fsd-1150 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-61px, -326px) scale(0.3);
+		opacity: 0;
+	}
+}
+@keyframes compress-fsd-960 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(312px, -262px) scale(0.5);
+		opacity: 0;
+	}
+}
+@keyframes compress-fsd-767 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(382px, -262px) scale(0.5);
+		opacity: 0;
+	}
+}
+@keyframes compress-fsd-571 {
+	0% {
+		transform: none;
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-138px, -262px) scale(0.5);
+		opacity: 0;
+	}
+}
+
+@keyframes show {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes hide {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

@@ -19,7 +19,6 @@ export default function Home() {
 	useEffect(() => {
 		// callback function to call when event triggers
 		const onPageLoad = () => {
-			console.log("page loaded");
 			window.addEventListener("scroll", onScroll, { once: true });
 		};
 

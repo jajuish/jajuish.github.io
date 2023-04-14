@@ -1,4 +1,5 @@
 @import "../global.scss";
+@import "./animations.scss";
 
 .hero {
 	height: 1000px;
@@ -72,6 +73,9 @@
 	@media (max-width: 571px) {
 		font-size: 100px;
 	}
+	@media (max-width: 280px) {
+		font-size: 75px;
+	}
 
 	&__small {
 		font-size: 60px;
@@ -116,103 +120,53 @@
 
 @media (prefers-reduced-motion: no-preference) {
 	.ishita {
-		animation: compress-ishita 0.5s 1;
+		animation: compress-ishita-main 0.5s infinite;
+
+		@media (max-width: 1150px) {
+			animation: compress-ishita-1150 0.5s infinite;
+		}
+		@media (max-width: 960px) {
+			animation: compress-ishita-960 0.5s infinite;
+		}
+		@media (max-width: 767px) {
+			animation: compress-ishita-767 0.5s infinite;
+		}
+		@media (max-width: 571px) {
+			animation: compress-ishita-571 0.5s infinite;
+		}
 	}
 	.jaju {
-		animation: compress-jaju 0.5s 1;
+		animation: compress-jaju 0.5s infinite;
+		@media (max-width: 1150px) {
+			animation: compress-jaju-1150 0.5s infinite;
+		}
+		@media (max-width: 960px) {
+			animation: compress-jaju-960 0.5s infinite;
+		}
+		@media (max-width: 767px) {
+			animation: compress-jaju-767 0.5s infinite;
+		}
+		@media (max-width: 571px) {
+			animation: compress-jaju-571 0.5s infinite;
+		}
 	}
 	.fsd {
-		animation: compress-fsd 0.5s 1;
+		animation: compress-fsd 0.5s infinite;
+		@media (max-width: 1150px) {
+			animation: compress-fsd-1150 0.5s infinite;
+		}
+		@media (max-width: 960px) {
+			animation: compress-fsd-960 0.5s infinite;
+		}
+		@media (max-width: 767px) {
+			animation: compress-fsd-767 0.5s infinite;
+		}
+		@media (max-width: 571px) {
+			animation: compress-fsd-571 0.5s infinite;
+		}
 	}
 	.hide-small {
 		animation: hide 0.5s 1;
-	}
-}
-
-@keyframes compress-ishita {
-	0% {
-		transform: none;
-		opacity: 1;
-	}
-	100% {
-		transform: translate(-400px, -40px) scale(0.3);
-		opacity: 0;
-		@media (max-width: 1150px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 960px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 767px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 571px) {
-			transform: translate(-121px, -40px) scale(0.3);
-		}
-	}
-}
-
-@keyframes compress-jaju {
-	0% {
-		transform: none;
-		opacity: 1;
-	}
-	100% {
-		transform: translate(-200px, -210px) scale(0.3);
-		opacity: 0;
-		@media (max-width: 1150px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 960px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 767px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 571px) {
-			transform: translate(-11px, -149px) scale(0.3);
-		}
-	}
-}
-
-@keyframes compress-fsd {
-	0% {
-		transform: none;
-		opacity: 1;
-	}
-	100% {
-		transform: translate(-145px, -320px) scale(0.7);
-		opacity: 0;
-		@media (max-width: 1150px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 960px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 767px) {
-			transform: translate(-400px, -40px) scale(0.3);
-		}
-		@media (max-width: 571px) {
-			transform: translate(382px, -262px) scale(0.5);
-		}
-	}
-}
-
-@keyframes show {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes hide {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
 	}
 }
 
