@@ -24,7 +24,7 @@
 	}
 	@media (max-width: 960px) {
 		padding-top: 190px;
-		width: 700px;
+		width: 650px;
 	}
 	@media (max-width: 767px) {
 		width: auto;
@@ -42,6 +42,16 @@
 	&__small {
 		flex-direction: row;
 		align-items: baseline;
+
+		@media (max-width: 1150px) {
+			flex-direction: row;
+		}
+		@media (max-width: 960px) {
+			flex-direction: row;
+		}
+		@media (max-width: 767px) {
+			flex-direction: column;
+		}
 	}
 }
 
@@ -73,10 +83,10 @@
 			font-size: 40px;
 		}
 		@media (max-width: 767px) {
-			font-size: 30px;
+			font-size: 65px;
 		}
 		@media (max-width: 571px) {
-			font-size: 20px;
+			font-size: 36px;
 		}
 	}
 }
@@ -127,6 +137,18 @@
 	100% {
 		transform: translate(-400px, -40px) scale(0.3);
 		opacity: 0;
+		@media (max-width: 1150px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 960px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 767px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 571px) {
+			transform: translate(-121px, -40px) scale(0.3);
+		}
 	}
 }
 
@@ -138,6 +160,18 @@
 	100% {
 		transform: translate(-200px, -210px) scale(0.3);
 		opacity: 0;
+		@media (max-width: 1150px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 960px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 767px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 571px) {
+			transform: translate(-11px, -149px) scale(0.3);
+		}
 	}
 }
 
@@ -149,6 +183,18 @@
 	100% {
 		transform: translate(-145px, -320px) scale(0.7);
 		opacity: 0;
+		@media (max-width: 1150px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 960px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 767px) {
+			transform: translate(-400px, -40px) scale(0.3);
+		}
+		@media (max-width: 571px) {
+			transform: translate(382px, -262px) scale(0.5);
+		}
 	}
 }
 
@@ -168,4 +214,8 @@
 	100% {
 		opacity: 0;
 	}
+}
+
+.about-me {
+	font-size: 40px;
 }

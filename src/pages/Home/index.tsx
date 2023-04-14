@@ -15,39 +15,47 @@ import "./styles.scss";
 export default function Home() {
 	const [scrolledDown, setScrolledDown] = useState(false);
 
+	// This will run one time after the component mounts
+	useEffect(() => {
+		// callback function to call when event triggers
+		const onPageLoad = () => {
+			console.log("page loaded");
+			window.addEventListener("scroll", onScroll, { once: true });
+		};
+
+		// Check if the page has already loaded
+		if (document.readyState === "complete") {
+			onPageLoad();
+		} else {
+			window.addEventListener("load", onPageLoad, false);
+			// Remove the event listener when component unmounts
+			return () => window.removeEventListener("load", onPageLoad);
+		}
+	}, []);
+
 	const onScroll = () => {
 		const onTop = window.pageYOffset.valueOf() <= 5;
 
-		if (!onTop) {
-			setTimeout(() => setScrolledDown(true), 400);
-			const first = document.getElementById("first");
-			if (first) {
-				first.className += " ishita";
-			}
-
-			const last = document.getElementById("last");
-			if (last) {
-				last.className += " jaju";
-			}
-
-			const pos = document.getElementById("pos");
-			if (pos) {
-				pos.className += " fsd";
-			}
-		} else {
-			setTimeout(() => setScrolledDown(false), 400);
-			const name = document.getElementById("first-small");
-			if (name) {
-				name.className += " hide-small";
-			}
-			const pos = document.getElementById("position-small");
-			if (pos) {
-				pos.className += " hide-small";
-			}
+		// if (!onTop) {
+		setTimeout(() => setScrolledDown(true), 400);
+		const first = document.getElementById("first");
+		if (first) {
+			first.className += " ishita";
 		}
-	};
 
-	window.addEventListener("scroll", onScroll, false);
+		const last = document.getElementById("last");
+		if (last) {
+			last.className += " jaju";
+		}
+
+		const pos = document.getElementById("pos");
+		if (pos) {
+			pos.className += " fsd";
+		}
+		// } else {
+		// 	setTimeout(() => setScrolledDown(false), 400);
+		// }
+	};
 
 	return (
 		<div className="hero">
@@ -67,8 +75,12 @@ export default function Home() {
 				)}
 				{scrolledDown && (
 					<div className="inside-flex inside-flex__small">
-						<span className="my-name my-name__small" id="name-small">ISHITA JAJU</span>
-						<span className="my-position my-position__small" id="position-small">full stack developer</span>
+						<span className="my-name my-name__small" id="name-small">
+							ISHITA JAJU
+						</span>
+						<span className="my-position my-position__small" id="position-small">
+							full stack developer
+						</span>
 					</div>
 				)}
 				{/* <div className="about-me">
