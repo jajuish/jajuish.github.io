@@ -16,10 +16,7 @@ export default function Home() {
 	const [scrolledDown, setScrolledDown] = useState(false);
 
 	const onScroll = () => {
-		console.log("scrollin");
-
 		const onTop = window.pageYOffset.valueOf() <= 5;
-		console.log("on top==", onTop);
 
 		if (!onTop) {
 			setTimeout(() => setScrolledDown(true), 400);
@@ -39,6 +36,14 @@ export default function Home() {
 			}
 		} else {
 			setTimeout(() => setScrolledDown(false), 400);
+			const name = document.getElementById("first-small");
+			if (name) {
+				name.className += " hide-small";
+			}
+			const pos = document.getElementById("position-small");
+			if (pos) {
+				pos.className += " hide-small";
+			}
 		}
 	};
 
@@ -62,8 +67,8 @@ export default function Home() {
 				)}
 				{scrolledDown && (
 					<div className="inside-flex inside-flex__small">
-						<span className="my-name my-name__small">ISHITA JAJU</span>
-						<span className="my-position my-position__small">full stack developer</span>
+						<span className="my-name my-name__small" id="name-small">ISHITA JAJU</span>
+						<span className="my-position my-position__small" id="position-small">full stack developer</span>
 					</div>
 				)}
 				{/* <div className="about-me">

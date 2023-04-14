@@ -48,6 +48,7 @@
 .my-name {
 	font-weight: 600;
 	font-size: 160px;
+	animation: show 0.5s 1;
 
 	@media (max-width: 1150px) {
 		font-size: 150px;
@@ -64,7 +65,6 @@
 
 	&__small {
 		font-size: 60px;
-		animation: show-shortform 0.5s 1;
 
 		@media (max-width: 1150px) {
 			font-size: 50px;
@@ -86,11 +86,11 @@
 	font-size: 30px;
 	color: #7c7c7c;
 	font-style: italic;
+	animation: show 0.5s 1;
 
 	&__small {
 		margin-left: 5px;
 		font-size: 30px;
-		animation: show-shortform 0.5s 1;
 
 		@media (max-width: 1150px) {
 			font-size: 30px;
@@ -108,17 +108,14 @@
 	.ishita {
 		animation: compress-ishita 0.5s 1;
 	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
 	.jaju {
 		animation: compress-jaju 0.5s 1;
 	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
 	.fsd {
 		animation: compress-fsd 0.5s 1;
+	}
+	.hide-small {
+		animation: hide 0.5s 1;
 	}
 }
 
@@ -155,11 +152,20 @@
 	}
 }
 
-@keyframes show-shortform {
+@keyframes show {
 	0% {
 		opacity: 0;
 	}
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes hide {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
 	}
 }
