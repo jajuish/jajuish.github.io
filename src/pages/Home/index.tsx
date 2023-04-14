@@ -1,51 +1,53 @@
 import { useEffect, useState } from "react";
 import "./styles.scss";
 
-// TODO: naam pehle bada fir scroll pe chhota
-// TODO: font: luicida
 // TODO: bg image ka size chhota hona chahiye
 // TODO: create ij animation like this https://iconscout.com/lottie/puzzle-game-7956868?utm_campaign=search&utm_medium=marketplace&utm_source=lottiefiles to put on right side. phone pe upar neeche and text kinda overlaps
-
 // TODO: in the about, wipe enter on scroll. before that not visible only name visible. then name small and about enter
 // TODO: in the about, do funky animations like the underline and stuff
-
 // TODO: for every link, on hover add tedha underline of different colours
-
 // TODO: load everything super smooth. and everything should wipe enter!! the navbar, my name, logo etc
-
 // TODO: add frosted glass css bg somewhere. maybe in cards background
-
-// TODO: add a loader until all assets have loaded
-
+// TODO: add a loader until all assets have loaded. only then load page and bring it to top always
 // TODO: in phones, ishita jaju and fsd should be on separate lines
-interface IHome {}
-export default function Home({}: IHome) {
-	const [scrolled, setScrolled] = useState(false);
+// TODO: fix transform for different media sizes cuz rn its wonky and goes all over the place
+
+export default function Home() {
+	const [scrolledDown, setScrolledDown] = useState(false);
 
 	const onScroll = () => {
-		setTimeout(() => setScrolled(true), 900);
+		console.log("scrollin");
 
-		const first = document.getElementById("first");
-		if (first) {
-			first.className += " ishita";
-		}
+		const onTop = window.pageYOffset.valueOf() <= 5;
+		console.log("on top==", onTop);
 
-		const last = document.getElementById("last");
-		if (last) {
-			last.className += " jaju";
-		}
+		if (!onTop) {
+			setTimeout(() => setScrolledDown(true), 400);
+			const first = document.getElementById("first");
+			if (first) {
+				first.className += " ishita";
+			}
 
-		const pos = document.getElementById("pos");
-		if (pos) {
-			pos.className += " fsd";
+			const last = document.getElementById("last");
+			if (last) {
+				last.className += " jaju";
+			}
+
+			const pos = document.getElementById("pos");
+			if (pos) {
+				pos.className += " fsd";
+			}
+		} else {
+			setTimeout(() => setScrolledDown(false), 400);
 		}
 	};
 
 	window.addEventListener("scroll", onScroll, false);
+
 	return (
 		<div className="hero">
 			<div className="home-container">
-				{!scrolled && (
+				{!scrolledDown && (
 					<div className="inside-flex">
 						<div className="my-name" id="first">
 							ISHITA
@@ -58,7 +60,7 @@ export default function Home({}: IHome) {
 						</div>
 					</div>
 				)}
-				{scrolled && (
+				{scrolledDown && (
 					<div className="inside-flex inside-flex__small">
 						<span className="my-name my-name__small">ISHITA JAJU</span>
 						<span className="my-position my-position__small">full stack developer</span>
