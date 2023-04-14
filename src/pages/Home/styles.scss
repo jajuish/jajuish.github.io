@@ -63,7 +63,7 @@
 .my-name {
 	font-weight: 600;
 	font-size: 160px;
-	animation: show 0.5s 1;
+	animation: show 1s 1;
 	color: white;
 
 	@media (max-width: 1150px) {
@@ -105,7 +105,7 @@
 	font-size: 30px;
 	color: #7c7c7c;
 	font-style: italic;
-	animation: show 0.5s 1;
+	animation: show 1s 1;
 
 	&__small {
 		margin-left: 5px;
@@ -180,6 +180,7 @@
 .about-me {
 	font-size: 30px;
 	margin-top: 20px;
+	margin-bottom: 80px;
 	text-align: justify;
 	animation: paragraph-enter 1.5s 1;
 	animation-timing-function: ease-in-out;
