@@ -5,6 +5,8 @@ import { AppShelf } from "./components";
 import { Home, WorkEx, Projects, Volunteering, Hobbies, Links } from "./pages";
 import "./App.scss";
 
+/* titles: Home, About, WorkEx, Projects, Volunteering, Hobbies, Links */
+
 function App() {
 	const [fontsLoaded, setFontsLoaded] = useState(false);
 	const font = new FontFaceObserver("Ubuntu Mono");
@@ -15,10 +17,6 @@ function App() {
 		<div>
 			<AppShelf>
 				<Home fontsLoaded={fontsLoaded} />
-				<WorkEx />
-				<Projects />
-				<Volunteering />
-				<Hobbies />
 				<Links />
 			</AppShelf>
 		</div>

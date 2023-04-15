@@ -2,7 +2,7 @@ import "./styles.scss";
 
 export default function Card() {
 	return (
-		<div className="header">
+		<div className="container">
 			Hi
 		</div>
 	)

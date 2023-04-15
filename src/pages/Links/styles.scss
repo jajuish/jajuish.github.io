@@ -1,0 +1,33 @@
+.page {
+	height: 500px;
+	// background-image: url("../../../public/assets/black-bg.jpg");
+	background: rgb(0, 0, 0);
+	background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 1) 100%);
+
+	font-family: "Ubuntu Mono";
+	color: white;
+}
+
+.links-container {
+	display: flex;
+	flex-direction: column;
+
+	width: 1100px;
+	margin: auto;
+
+	position: sticky;
+	top: 260px;
+
+	@media (max-width: 1150px) {
+		top: 190px;
+		width: 800px;
+	}
+	@media (max-width: 960px) {
+		top: 190px;
+		width: 650px;
+	}
+	@media (max-width: 767px) {
+		width: auto;
+		margin: 0px 46px;
+	}
+}

@@ -26,6 +26,7 @@ export default function Scroller({ children }: IScroller) {
 	const [pageLoaded, setPageLoaded] = useState(false);
 	useEffect(() => {
 		window.onload = function () {
+			console.log("PAGE LOADED")
 			setPageLoaded(true);
 		};
 	}, []);

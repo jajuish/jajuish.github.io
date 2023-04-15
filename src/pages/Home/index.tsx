@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import "./styles.scss";
 
 // TODO: bg image ka size chhota hona chahiye
@@ -10,6 +10,8 @@ import "./styles.scss";
 // TODO: add a loader until all assets have loaded. only then load page and bring it to top always
 // TODO: saari technologies ka png with background opacity less, on hover scale up slowly and opacity more, and link to that tech. this should be
 // TODO: ensure that hero bg has loaded first before showing the title
+// TODO: second page pe gradient out from first bg into sencond bg
+// TODO: consider bg with moving or twinkling stars?
 
 interface IHome {
 	fontsLoaded: boolean
