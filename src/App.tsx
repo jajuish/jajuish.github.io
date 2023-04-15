@@ -14,7 +14,7 @@ function App() {
 	return (
 		<div>
 			<AppShelf>
-				<Home fontsLoaded />
+				<Home fontsLoaded={fontsLoaded} />
 				<WorkEx />
 				<Projects />
 				<Volunteering />

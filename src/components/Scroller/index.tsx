@@ -23,12 +23,10 @@ export default function Scroller({ children }: IScroller) {
 		[0],
 	);
 
+	const [pageLoaded, setPageLoaded] = useState(false);
 	useEffect(() => {
 		window.onload = function () {
-			const element = document.getElementById("scroller");
-			if (element) {
-				element.className += " pagination-transition left-20";
-			}
+			setPageLoaded(true);
 		};
 	}, []);
 
@@ -96,9 +94,11 @@ export default function Scroller({ children }: IScroller) {
 
 	return (
 		<>
-			<nav className="pagination" id="scroller">
-				{createNavigator()}
-			</nav>
+			{pageLoaded && (
+				<nav className="pagination pagination-transition" id="scroller">
+					{createNavigator()}
+				</nav>
+			)}
 			<div
 			// ref={pageContainer}
 			>
