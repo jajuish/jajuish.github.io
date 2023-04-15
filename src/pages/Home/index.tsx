@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import "./styles.scss";
 
 // TODO: bg image ka size chhota hona chahiye
@@ -9,12 +9,15 @@ import "./styles.scss";
 // TODO: add frosted glass css bg somewhere. maybe in cards background
 // TODO: add a loader until all assets have loaded. only then load page and bring it to top always
 // TODO: saari technologies ka png with background opacity less, on hover scale up slowly and opacity more, and link to that tech. this should be
+// TODO: ensure that hero bg has loaded first before showing the title
 
-export default function Home() {
-	const [scrolledDown, setScrolledDown] = useState(false);
+interface IHome {
+	fontsLoaded: boolean
+}
+export default function Home({ fontsLoaded }: IHome ) {
+	const [scrolled, setScrolled] = useState(false);
 
-	// This will run one time after the component mounts
-	useEffect(() => {
+	useLayoutEffect(() => {
 		// callback function to call when event triggers
 		const onPageLoad = () => {
 			// window.addEventListener("scroll", onScroll, { once: true });
@@ -35,7 +38,7 @@ export default function Home() {
 		const onTop = window.pageYOffset.valueOf() <= 5;
 
 		if (!onTop) {
-			setTimeout(() => setScrolledDown(true), 400);
+			setTimeout(() => setScrolled(true), 400);
 			const first = document.getElementById("first");
 			if (first) {
 				first.className += " ishita";
@@ -51,7 +54,7 @@ export default function Home() {
 				pos.className += " fsd";
 			}
 		} else {
-			setTimeout(() => setScrolledDown(false), 400);
+			setTimeout(() => setScrolled(false), 400);
 			const name = document.getElementById("first-small");
 			if (name) {
 				name.className += " hide";
@@ -65,39 +68,42 @@ export default function Home() {
 
 	return (
 		<div className="hero">
-			<div className="home-container">
-				{!scrolledDown && (
-					<div className="inside-flex">
-						<div className="my-name" id="first">
-							ISHITA
+			{fontsLoaded && (
+				<div className="home-container">
+					{!scrolled && (
+						<div className="inside-flex">
+							<div className="my-name" id="first">
+								ISHITA
+							</div>
+							<div className="my-name" id="last">
+								JAJU
+							</div>
+							<div className="my-position" id="pos">
+								full stack developer
+							</div>
 						</div>
-						<div className="my-name" id="last">
-							JAJU
+					)}
+					{scrolled && (
+						<div className="inside-flex inside-flex__small">
+							<span className="my-name my-name__small" id="name-small">
+								ISHITA JAJU
+							</span>
+							<span className="my-position my-position__small" id="position-small">
+								full stack developer
+							</span>
 						</div>
-						<div className="my-position" id="pos">
-							full stack developer
+					)}
+					{scrolled && (
+						<div className="about-me">
+							Namaste! I am mainly a Javascript/Typescript Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							Morbi venenatis diam lobortis risus elementum rhoncus. Pellentesque vitae tristique nulla. Donec vel
+							convallis libero, auctor porttitor ante. Etiam rutrum ultricies euismod. Sed dapibus vestibulum ultrices.
+							Nunc malesuada ac elit quis euismod. Suspendisse nisl diam, tristique in placerat ac, aliquet tincidunt
+							nunc.
 						</div>
-					</div>
-				)}
-				{scrolledDown && (
-					<div className="inside-flex inside-flex__small">
-						<span className="my-name my-name__small" id="name-small">
-							ISHITA JAJU
-						</span>
-						<span className="my-position my-position__small" id="position-small">
-							full stack developer
-						</span>
-					</div>
-				)}
-				{scrolledDown && (
-					<div className="about-me">
-						Namaste! I am mainly a Javascript/Typescript Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-						venenatis diam lobortis risus elementum rhoncus. Pellentesque vitae tristique nulla. Donec vel convallis
-						libero, auctor porttitor ante. Etiam rutrum ultricies euismod. Sed dapibus vestibulum ultrices. Nunc
-						malesuada ac elit quis euismod. Suspendisse nisl diam, tristique in placerat ac, aliquet tincidunt nunc.
-					</div>
-				)}
-			</div>
+					)}
+				</div>
+			)}
 		</div>
 	);
 }
