@@ -35,7 +35,6 @@ export default function Home() {
 		const onTop = window.pageYOffset.valueOf() <= 5;
 
 		if (!onTop) {
-			console.log("not on top")
 			setTimeout(() => setScrolledDown(true), 400);
 			const first = document.getElementById("first");
 			if (first) {
@@ -52,7 +51,6 @@ export default function Home() {
 				pos.className += " fsd";
 			}
 		} else {
-			console.log("on top")
 			setTimeout(() => setScrolledDown(false), 400);
 			const name = document.getElementById("first-small");
 			if (name) {

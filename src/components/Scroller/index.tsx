@@ -27,7 +27,7 @@ export default function Scroller({ children }: IScroller) {
 		window.onload = function () {
 			const element = document.getElementById("scroller");
 			if (element) {
-				element.className += " pagination-transition";
+				element.className += " pagination-transition left-20";
 			}
 		};
 	}, []);

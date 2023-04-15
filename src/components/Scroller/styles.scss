@@ -2,13 +2,16 @@
 	margin: auto;
 	position: fixed;
 	z-index: 10000;
+	left: -20px;
 	top: 160px;
-	left: 20px;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 }
 
+.left-20 {
+	left: 20px;
+}
 .navigation-button {
 	cursor: pointer;
 }
